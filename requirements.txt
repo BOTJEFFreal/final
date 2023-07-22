@@ -4,3 +4,8 @@ djangorestframework==3.13.1
 pytz==2022.1
 sqlparse==0.4.2
 tzdata==2022.1
+openai==0.27.8
+requests==2.31.0
+tqdm==4.65.0
+urllib3==2.0.4
+yarl==1.9.2
