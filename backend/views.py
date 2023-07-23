@@ -26,14 +26,14 @@ def process_data(request):
 
     return render(request, 'data_form.html', {'form': form})
 
-def download_output_csv(request):
-    # The code for this view remains unchanged
-    output_file_path = request.GET.get('output_file_path')
-    if output_file_path:
-        with open(output_file_path, 'rb') as output_file:
-            response = HttpResponse(output_file.read(), content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="output.csv"'
-            return response
-    else:
-        return render(request, 'error.html', {'error_message': 'Output file path not provided.'})
+# def download_output_csv(request):
+#     # The code for this view remains unchanged
+#     output_file_path = request.GET.get('output_file_path')
+#     if output_file_path:
+#         with open(output_file_path, 'rb') as output_file:
+#             response = HttpResponse(output_file.read(), content_type='text/csv')
+#             response['Content-Disposition'] = 'attachment; filename="output.csv"'
+#             return response
+#     else:
+#         return render(request, 'error.html', {'error_message': 'Output file path not provided.'})
 
