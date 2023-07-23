@@ -70,33 +70,58 @@ def execute_code(file_path, tax_percentage, profit_percentage):
     # data = {"file": open(file_path, "rb")}
     # response_json = nanonet_call(data)
 
-    with open("response.json", "w") as file:
-        json.dump(response_json, file)
+    data = json.loads(response_json)
 
-    delete_fields_from_json(
-        "response.json",
-        [
-            "id",
-            "xmin",
-            "ymin",
-            "xmax",
-            "ymax",
-            "score",
-            "verification_status",
-            "failed_validation",
-            "label_id",
-            "status",
-        ],
-    )
+    # Extract required information
+    result = data['result'][0]
 
-    with open("response.json") as f:
-        data = json.load(f)
+    parsed_data = {
+        "message": "Success",
+        "result": []
+    }
 
-    with open("response.txt", "w") as f:
-        json.dump(data, f)
+    for prediction in result['prediction']:
+        label = prediction['label']
+        ocr_text = prediction['ocr_text']
+        page_no = prediction['page_no']
 
-    with open("response.txt", "r") as f:
-        data = f.read()
+        parsed_data["result"].append({
+            "label": label,
+            "ocr_text": ocr_text,
+            "type": "field",
+            "page_no": page_no
+        })
+
+    # Add table data to parsed_data
+    table_data = result['prediction'][-1]
+    parsed_table_data = {
+        "label": table_data['label'],
+        "ocr_text": table_data['ocr_text'],
+        "type": "table",
+        "cells": []
+    }
+
+    for cell in table_data['cells']:
+        parsed_table_data["cells"].append({
+            "row": cell['row'],
+            "col": cell['col'],
+            "row_span": cell['row_span'],
+            "col_span": cell['col_span'],
+            "label": cell['label'],
+            "text": cell['text'],
+            "row_label": cell['row_label']
+        })
+
+    parsed_data["result"].append(parsed_table_data)
+
+    # Add size data to parsed_data
+    parsed_data['size'] = result['size']
+
+    # Add signed_urls to parsed_data
+    parsed_data['signed_urls'] = data['signed_urls']
+
+    # Convert parsed_data to JSON format
+    data = json.dumps(parsed_data, indent=4)
 
     x = "Identify seller, products, price, line_amount, and their quantity from this JSON file. Don’t include the courier charge\n" + data
     y = getReply(x)
