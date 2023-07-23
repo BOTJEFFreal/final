@@ -54,28 +54,40 @@ def open_csv_file(file_path):
         print(f"Error occurred while opening the file: {e}")
 
 def execute_code(file_path, tax_percentage, profit_percentage):
-    url = 'https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelUrls/?async=false'
+    # url = 'https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelUrls/?async=false'
 
-    headers = {
-    'accept': 'application/x-www-form-urlencoded'
-    }
+    # headers = {
+    # 'accept': 'application/x-www-form-urlencoded'
+    # }
 
-    data = {'urls' : [file_path]}
+    # data = {'file': open(file_path, 'rb')}
 
-    response_json = requests.request('POST', url, headers=headers, auth=requests.auth.HTTPBasicAuth('a71e898c-f947-11ed-98af-ce47f9786cdf', ''), data=data)
+    # response = requests.post(url, auth=requests.auth.HTTPBasicAuth('a71e898c-f947-11ed-98af-ce47f9786cdf', ''), files=data)
 
+    # # url = "https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelFile/?async=false"
 
-    # url = "https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelFile/?async=false"
+    # # data = {"file": open(file_path, "rb")}
+    # # response_json = nanonet_call(data)
 
-    # data = {"file": open(file_path, "rb")}
-    # response_json = nanonet_call(data)
+    # # data = json.loads(response_json)
 
-    # data = json.loads(response_json)
+    # # Extract required information
+    # response_json_string = response.json()
+    # print(response_json_string)
+    url1 = 'https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelFile/?async=false'
 
-    # Extract required information
-    response_json_string = json.dumps(response_json)
+    data1 = {'file': open(file_path, 'rb')}
 
-    result = response_json_string['result'][0]
+    response1 = requests.post(url1, auth=requests.auth.HTTPBasicAuth('a71e898c-f947-11ed-98af-ce47f9786cdf', ''), files=data1)
+
+    response_json = response1.json()
+
+    # with open("response.json", "w") as file:
+    #     json.dump(response_json, file)
+
+    # print(response.text)
+    
+    result = response_json['result'][0]
 
     parsed_data = {
         "message": "Success",
@@ -120,7 +132,7 @@ def execute_code(file_path, tax_percentage, profit_percentage):
     parsed_data['size'] = result['size']
 
     # Add signed_urls to parsed_data
-    parsed_data['signed_urls'] = data['signed_urls']
+    parsed_data['signed_urls'] = response_json['signed_urls']
 
     # Convert parsed_data to JSON format
     data = json.dumps(parsed_data, indent=4)

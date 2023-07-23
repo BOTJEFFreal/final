@@ -1,9 +1,9 @@
 # pip install openai
 # create key.txt and paste your secret api key in it
 import openai
-
+OPENAI = ''
 def getReply(promptText):
-    openai.api_key = open("openai_key.txt","r").read().strip("\n")
+    openai.api_key = OPENAI 
     completion =openai.ChatCompletion.create(
         model ="gpt-3.5-turbo-16k",
         messages = [{"role":"user","content":promptText}]
@@ -12,7 +12,7 @@ def getReply(promptText):
     return reply_content
 
 def getReplies(message_list):
-    openai.api_key = open("key.txt","r").read().strip("\n")
+    openai.api_key = OPENAI 
     message_history=[]
     reply_content = []
     for message in message_list:
@@ -27,7 +27,7 @@ def getReplies(message_list):
     return reply_content
 
 def getChatHistory(message_list,message_history):
-    openai.api_key = open("key.txt","r").read().strip("\n")
+    openai.api_key = OPENAI 
     for message in message_list:
         message_history.append({"role":"user","content":message})
         completion =openai.ChatCompletion.create(
