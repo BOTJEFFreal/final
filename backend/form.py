@@ -2,7 +2,7 @@ from django import forms
 
 class DataInputForm(forms.Form):
     file_input = forms.FileField()
-    text_input1 = forms.CharField(max_length=100)
-    text_input2 = forms.CharField(max_length=100)
-    text_input3 = forms.CharField(max_length=100)
-    text_input4 = forms.CharField(max_length=100)
+    Tax_Percentage = forms.CharField(max_length=100)
+    Profit_Percentage = forms.CharField(max_length=100)
+    # Open_Ai_input = forms.CharField(max_length=1000)  # Assuming the input is a text area
+

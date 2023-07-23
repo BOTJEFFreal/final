@@ -18,10 +18,15 @@ def process_data(request):
                 for chunk in file_input.chunks():
                     destination.write(chunk)
 
-            text_input1 = form.cleaned_data['text_input1']
-            text_input2 = form.cleaned_data['text_input2']
-            text_input3 = form.cleaned_data['text_input3']
-            text_input4 = form.cleaned_data['text_input4']
+            text_input1 = form.cleaned_data['Tax_Percentage']
+            text_input2 = form.cleaned_data['Profit_Percentage']
+            # open_ai_input = form.cleaned_data['Open_Ai_input']
+
+            # Save the open_ai_input to openAi.txt
+            # open_ai_file_path = os.path.join(settings.KEY_ROOT, 'openAi.txt')
+            # with open(open_ai_file_path, 'w') as open_ai_file:
+            #     open_ai_file.write(open_ai_input)   
+
 
             # Call the execute_code function with the appropriate arguments, passing the file_path
             execute_code(file_path, text_input1, text_input2)
