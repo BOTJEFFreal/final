@@ -54,11 +54,21 @@ def open_csv_file(file_path):
         print(f"Error occurred while opening the file: {e}")
 
 def execute_code(file_path, tax_percentage, profit_percentage):
-    
-    url = "https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelFile/?async=false"
+    url = 'https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelUrls/?async=false'
 
-    data = {"file": open(file_path, "rb")}
-    response_json = nanonet_call(data)
+    headers = {
+    'accept': 'application/x-www-form-urlencoded'
+    }
+
+    data = {'urls' : [file_path]}
+
+    response_json = requests.request('POST', url, headers=headers, auth=requests.auth.HTTPBasicAuth('a71e898c-f947-11ed-98af-ce47f9786cdf', ''), data=data)
+
+
+    # url = "https://app.nanonets.com/api/v2/OCR/Model/ef653ad5-a2fd-486e-af23-d9ec6b677db5/LabelFile/?async=false"
+
+    # data = {"file": open(file_path, "rb")}
+    # response_json = nanonet_call(data)
 
     with open("response.json", "w") as file:
         json.dump(response_json, file)
