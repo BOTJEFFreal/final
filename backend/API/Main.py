@@ -70,10 +70,12 @@ def execute_code(file_path, tax_percentage, profit_percentage):
     # data = {"file": open(file_path, "rb")}
     # response_json = nanonet_call(data)
 
-    data = json.loads(response_json)
+    # data = json.loads(response_json)
 
     # Extract required information
-    result = data['result'][0]
+    response_json_string = json.dumps(response_json)
+
+    result = response_json_string['result'][0]
 
     parsed_data = {
         "message": "Success",
